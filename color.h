@@ -5,7 +5,7 @@
 #define COLOR_H
 
 
-#include <SFML.h>
+#include <SFML/Graphics.hpp>
 //#include <SDL.h>
 
 #include <vector>
