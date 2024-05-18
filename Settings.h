@@ -3,7 +3,9 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <SFML/Graphics.hpp>
+#include <random> // For rng
+
+#include <SFML/Graphics.hpp> // For colors
 
 struct MySettings {
 
@@ -62,6 +64,44 @@ private:
 
 	MySettings() {} // Don't delete constructor
 
+};
+
+struct RandomGenerator {
+public:
+	// Public method to get the singleton instance
+	static RandomGenerator& get_instance() {
+		static RandomGenerator instance; // Guaranteed to be destroyed, instantiated on first use.
+		return instance;
+	}
+
+	// Public method to get a random number in the specified range
+	int get_random_number(int min, int max) {
+		std::uniform_int_distribution<int> dist(min, max);
+		return dist(rng);
+	}
+
+	// Method to get a random row or column (0 to 3)
+	int get_random_row_or_col() {
+		std::uniform_int_distribution<int> dist(0, 3);
+		return dist(rng);
+	}
+
+	// Method to get a random value either 2 or 4 based on a probability
+	int get_random_2_or_4() {
+		std::uniform_real_distribution<double> dist(0.0, 1.0);
+		return dist(rng) < 0.9 ? 2 : 4; // 90% chance of 2, 10% chance of 4
+	}
+
+private:
+	// Private constructor to prevent instantiation
+	RandomGenerator() : rng(std::random_device{}()) {}
+
+	// Random number generator
+	std::mt19937 rng;
+
+	// Delete copy constructor and copy assignment operator to prevent copying
+	RandomGenerator(const RandomGenerator&) = delete;
+	RandomGenerator& operator=(const RandomGenerator&) = delete;
 };
 
 #endif

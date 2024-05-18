@@ -1,3 +1,4 @@
+#include "Settings.h"
 #include "color.h"
 
 #include <SFML/Graphics.hpp>
