@@ -29,9 +29,9 @@ public:
 	int getRow() const noexcept;
 	int getCol() const noexcept;
 
-	int setNumber(int newNum) noexcept;
-	int setRow(int newRow) noexcept;
-	int setCol(int newCol) noexcept;
+	void setNumber(int newNum) noexcept;
+	void setRow(int newRow) noexcept;
+	void setCol(int newCol) noexcept;
 
 
 	bool hasCellMergerd() const noexcept; // Ask if the cell just merged
@@ -40,7 +40,7 @@ public:
 
 
 private:
-	int value;
+	int number;
 	int row, col;
 
 	bool justMerged;
