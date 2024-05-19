@@ -65,11 +65,11 @@ void Cell::setCol(int newCol) noexcept {
 }
 
 // Merge status methods
-bool Cell::hasMerged() const noexcept {
+bool Cell::hasCellMerged() const noexcept {
     return justMerged;
 }
 
-void Cell::youJustMerged() noexcept {
+void Cell::cellHasMerged() noexcept {
     justMerged = true;
 }
 

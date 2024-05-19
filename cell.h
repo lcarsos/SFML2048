@@ -3,6 +3,8 @@
 #ifndef CELL_H
 #define CELL_H
 
+#include "Settings.h"
+
 class Cell {
 public:
 	// Constructors
@@ -34,7 +36,7 @@ public:
 	void setCol(int newCol) noexcept;
 
 
-	bool hasCellMergerd() const noexcept; // Ask if the cell just merged
+	bool hasCellMerged() const noexcept; // Ask if the cell just merged
 	void cellHasMerged() noexcept; // Tell the cell it just merged
 	void resetMerge() noexcept;
 
@@ -45,6 +47,7 @@ private:
 
 	bool justMerged;
 
+	MySettings& settings = MySettings::getInstance();
 
 };
 
