@@ -89,3 +89,265 @@ void Grid::placeRandomCell() {
 	Cell cell = createCell(randRow, randCol);
 	gridData[randRow][randCol].emplace(cell);
 }
+
+void Grid::deleteCellAt(int row, int col) {
+	rng.get_random_row_or_col();
+}
+
+void Grid::clearGrid() {
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			deleteCellAt(i, j);
+		}
+	}
+	placeRandomCell();
+}
+
+void Grid::moveAndMergeLeft() {
+
+	std::vector<std::vector<std::optional<Cell>>> beforeGrid = getGridData();
+
+	for (int i = 0; i < settings.gridRows; i++) {
+		for (int j = 1; j < settings.gridCols; j++) { // Start from the second column
+			if (checkForCellAt(i, j)) {
+				Cell& movingCell = getCellAt(i, j);
+				int k = j - 1; // Index of the cell to the left
+
+				// Move the cell as far left as possible
+				while (k >= 0 && !checkForCellAt(i, k)) {
+					moveCellTo(movingCell, i, k); // Move the cell to the left
+					k--; // Move to the next left position
+				}
+
+				if (k >= 0 && checkForCellAt(i, k)) {
+					Cell& targetCell = getCellAt(i, k);
+					mergeCells(targetCell, movingCell);
+				}
+			}
+		}
+	}
+
+	resetCellMergeFlag();
+
+	std::vector<std::vector<std::optional<Cell>>> afterGrid = getGridData();
+
+	if (!isSameGridState(beforeGrid, afterGrid)) {
+		placeRandomCell();
+	}
+
+}
+
+void Grid::moveAndMergeRight() {
+
+	std::vector<std::vector<std::optional<Cell>>> beforeGrid = getGridData();
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = cols - 1; j >= 0; j--) { // Start from the second-to-last column and move leftwards
+			if (checkForCellAt(i, j)) { // If there is a cell to move
+				Cell& movingCell = getCellAt(i, j);
+				int k = j + 1; // Index of the cell to the right
+
+				// Move the cell as far right as possible
+				while (k < cols && !checkForCellAt(i, k)) {
+					moveCellTo(movingCell, i, k); // Move the cell to the right
+					k++; // Move to the next right position
+				}
+
+				if (k < cols && checkForCellAt(i, k)) {
+					Cell& targetCell = getCellAt(i, k);
+					mergeCells(targetCell, movingCell);
+				}
+			}
+		}
+	}
+
+	resetCellMergeFlag();
+
+	std::vector<std::vector<std::optional<Cell>>> afterGrid = getGridData();
+
+	if (!isSameGridState(beforeGrid, afterGrid)) {
+		placeRandomCell();
+	}
+
+}
+
+
+void Grid::moveAndMergeUp() {
+
+	std::vector<std::vector<std::optional<Cell>>> beforeGrid = getGridData();
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (checkForCellAt(i, j)) {
+				Cell& movingCell = getCellAt(i, j);
+				int k = i - 1; // Index of cell up
+
+				// Move the cell as far up as possible
+				while (k >= 0 && !checkForCellAt(k, j)) {
+					moveCellTo(movingCell, k, j);
+					k--;
+				}
+
+				if (k >= 0 && checkForCellAt(k, j)) { // Merge if possible
+					Cell& targetCell = getCellAt(k, j);
+					mergeCells(targetCell, movingCell);
+				}
+			}
+		}
+	}
+
+	resetCellMergeFlag();
+
+	std::vector<std::vector<std::optional<Cell>>> afterGrid = getGridData();
+
+	if (!isSameGridState(beforeGrid, afterGrid)) {
+
+		placeRandomCell();
+	}
+
+}
+
+void Grid::moveAndMergeDown() {
+
+	std::vector<std::vector<std::optional<Cell>>> beforeGrid = getGridData();
+
+	for (int i = rows - 1; i >= 0; i--) {
+		for (int j = 0; j < cols; j++) {
+			if (checkForCellAt(i, j)) {
+				Cell& movingCell = getCellAt(i, j);
+				int k = i + 1; // Index of cell down
+
+				// Move the cell as far down as possible
+				while (k < rows && !checkForCellAt(k, j)) {
+					moveCellTo(movingCell, k, j);
+					k++;
+				}
+
+				if (k < rows && checkForCellAt(k, j)) { // Merge if possible
+					Cell& targetCell = getCellAt(k, j);
+					mergeCells(targetCell, movingCell);
+				}
+			}
+		}
+	}
+
+	resetCellMergeFlag();
+
+	std::vector<std::vector<std::optional<Cell>>> afterGrid = getGridData();
+
+	if (!isSameGridState(beforeGrid, afterGrid)) {
+
+		placeRandomCell();
+	}
+
+}
+
+std::vector<std::vector<std::optional<Cell>>>& Grid::getGridData() {
+
+	return gridData;
+
+}
+
+Cell& Grid::getCellAt(int row, int col) {
+
+	return gridData[row][col].value();
+
+}
+
+std::optional<Cell> Grid::getPotentialCellAt(int row, int col) {
+	return gridData[row][col];
+}
+
+bool Grid::adjacentLikeCells(Cell& chkCell) {
+
+	int row = chkCell.getRow();
+	int col = chkCell.getCol();
+
+	// Check up (r - 1)
+	if (row > 0) { // If we aren't on the top (bottom) row
+		if (checkForCellAt(row - 1, col)) { // If there is a cell
+			if (chkCell.getNumber() == getCellAt(row - 1, col).getNumber()) { // If those cells are equal
+				return true;
+			}
+		}
+	}
+
+	// Check left
+	else if (col > 0) { // If we aren't on the left col
+		if (checkForCellAt(row, col - 1)) { // If there is a cell
+			if (chkCell.getNumber() == getCellAt(row, col - 1).getNumber()) {
+				return true;
+			}
+		}
+	}
+
+	// Check down
+	else if (row < rows) { // If we aren't on the bottom (top) row
+		if (checkForCellAt(row + 1, col)) { // If there is a cell
+			if (chkCell.getNumber() == getCellAt(row + 1, col).getNumber()) {
+				return true;
+			}
+		}
+	}
+
+	// Check right
+	else if (col < cols) { // If we aren't on the left col
+		if (checkForCellAt(row, col + 1)) { // If there is a cell
+			if (chkCell.getNumber() == getCellAt(row, col + 1).getNumber()) {
+				return true;
+			}
+		}
+	}
+	else return false;
+}
+
+void Grid::moveCellTo(Cell& cell, int newRow, int newCol) {
+	int oldRow = cell.getRow();
+	int oldCol = cell.getCol();
+
+	if (oldRow != newRow || oldCol != newCol) { // check for valid moves
+		// Change the value of row and col stored in the cell --> this should eventually be the only part of this function we need, somehow take care of the rest internally
+		cell.setRow(newRow);
+		cell.setCol(newCol); // --> ABSOLUTELY CRITICAL TO DO THIS BEFORE NEXT TWO STATEMENTS
+
+		// Change the location in gridData
+		gridData[newRow][newCol].emplace(cell);
+		deleteCellAt(oldRow, oldCol);
+	}
+}
+
+void Grid::resetCellMergeFlag() {
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (gridData[i][j].has_value()) {
+				gridData[i][j].value().resetMerge();
+			}
+		}
+	}
+}
+
+void Grid::mergeCells(Cell& targetCell, Cell& movingCell) {
+	if ((targetCell.getNumber() == movingCell.getNumber()) && (!targetCell.hasCellMerged())) {
+		// Merge the cells by updating the value of the first cell
+		targetCell.setNumber((movingCell.getNumber()) * 2);
+		// Update score
+		// score.updateScore(targetCell.getNumber());
+		// Delete the second cell
+		deleteCellAt(movingCell.getRow(), movingCell.getCol());
+		// Log score to console for now
+		// score.logScore();
+		targetCell.cellHasMerged();
+		return;
+	}
+
+	else return;
+
+}
+
+int Grid::randomTwoOrFour() {
+	return rng.get_random_2_or_4();
+}
+
+Cell Grid::createCell(int row, int col) {
+	return Cell(randomTwoOrFour(), row, col);
+}
