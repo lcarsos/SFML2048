@@ -40,38 +40,38 @@ private:
 	int screenWidth;
 	int screenHeight;
 
+	const int& cellSpacing = settings.gridCellSpacing;
+	const int& cellSize = settings.gridCellSize;
+	const int& rows = settings.gridRows;
+	const int& cols = settings.gridCols;
+
 	Grid grid;
 
 	sf::RectangleShape bgRect;
 
-	void initBG();
-	void renderBG();
-
-	sf::Color getColorForNumber(int number);
-
 	struct colors2048 {
-		sf::Color farBackColor = { 55, 55, 55, 255 };
-		sf::Color backgroundColor = { 202, 190, 176, 255 };
-		sf::Color gridColor = { 175, 161, 148, 255 };
+		const sf::Color farBackColor = { 55, 55, 55, 255 };
+		const sf::Color backgroundColor = { 202, 190, 176, 255 };
+		const sf::Color gridColor = { 175, 161, 148, 255 };
 
 
-		sf::Color cell2Color = { 233, 228, 218, 255 };
-		sf::Color cell4Color = { 236,224,202,255 };
-		sf::Color cell8Color = { 242,177,121,255 };
-		sf::Color cell16Color = { 236,141,83,255 };
-		sf::Color cell32Color = { 245,124,95,255 };
-		sf::Color cell64Color = { 233,89,54,255 };
-		sf::Color cell128Color = { 244,216,109 };
-		sf::Color cell256Color = { 241,208,75,255 };
-		sf::Color cell512Color = { 228,192,42,255 };
-		sf::Color cell1024Color = { 237, 197,63,255 };
-		sf::Color cell2048Color = { 236, 196, 5, 255 };
-		sf::Color cell4096Color = { 60,116,50,255 };
-		sf::Color cell8192Color = { 30, 29,25,255 };
+		const sf::Color cell2Color = { 233, 228, 218, 255 };
+		const sf::Color cell4Color = { 236,224,202,255 };
+		const sf::Color cell8Color = { 242,177,121,255 };
+		const sf::Color cell16Color = { 236,141,83,255 };
+		const sf::Color cell32Color = { 245,124,95,255 };
+		const sf::Color cell64Color = { 233,89,54,255 };
+		const sf::Color cell128Color = { 244,216,109 };
+		const sf::Color cell256Color = { 241,208,75,255 };
+		const sf::Color cell512Color = { 228,192,42,255 };
+		const sf::Color cell1024Color = { 237, 197,63,255 };
+		const sf::Color cell2048Color = { 236, 196, 5, 255 };
+		const sf::Color cell4096Color = { 60,116,50,255 };
+		const sf::Color cell8192Color = { 30, 29,25,255 };
 
-		sf::Color numberColor = { 245,245,250,255 };
+		const sf::Color numberColor = { 244,244,249,255 };
 
-		sf::Color scoreBGColor = {};
+		const sf::Color scoreBGColor = {};
 
 	} colors2048;
 
@@ -91,6 +91,13 @@ private:
 	{8192, colors2048.cell8192Color},
 	// Add more mappings as needed for higher numbers...
 	};
+
+	void initBG();
+	void renderBG();
+
+
+	sf::Color getColorForNumber(int number);
+	void renderGrid();
 
 };
 

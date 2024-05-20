@@ -70,7 +70,7 @@ void Game2048::updateLogic() {}
 void Game2048::renderGame() {
 	window.clear(); // Can (maybe?) avoid if we draw bg rectangle that covers window
 	renderBG();
-
+	renderGrid();
 
 	window.display();
 
@@ -101,6 +101,48 @@ sf::Color Game2048::getColorForNumber(int number) {
 	else {
 		// Default color if number doesn't exist in map
 		exit(1);
+	}
+}
+
+void Game2048::renderGrid() {
+	sf::Color gridColor = colors2048.gridColor;
+
+	int paddingWidth = (screenWidth / 2) - (settings.totalHeight / 2);
+	int paddingHeight = (screenHeight / 2) - (settings.totalHeight / 2);
+
+	// Render grid background
+	sf::RectangleShape gridBGRect;
+	gridBGRect.setPosition(paddingWidth, paddingHeight);
+	gridBGRect.setSize(sf::Vector2f(settings.totalWidth, settings.totalHeight));
+	gridBGRect.setFillColor(colors2048.backgroundColor);
+	window.draw(gridBGRect);
+
+	// Render vertical grid lines
+	for (int col = 0; col < cols + 1; col++) {
+		int x = (col)*cellSize + col * cellSpacing;
+		sf::RectangleShape gridLineRect;
+
+		int newY = 0;
+
+		gridLineRect.setPosition(x += paddingWidth, newY += paddingHeight);
+		gridLineRect.setSize(sf::Vector2f(cellSpacing, settings.totalHeight));
+
+		gridLineRect.setFillColor(colors2048.gridColor);
+		window.draw(gridLineRect);
+	}
+
+	// Render horizontal grid lines
+	for (int row = 0; row < rows + 1; row++) {
+		int y = (row)*cellSize + row * cellSpacing;
+		sf::RectangleShape gridLineRect;
+
+		int newX = 0;
+
+		gridLineRect.setPosition(newX += paddingWidth, y += paddingHeight);
+		gridLineRect.setSize(sf::Vector2f(settings.totalWidth, cellSpacing));
+
+		gridLineRect.setFillColor(colors2048.gridColor);
+		window.draw(gridLineRect);
 	}
 }
 
