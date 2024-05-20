@@ -1,7 +1,10 @@
 #include "grid.h"
 #include "cell.h"
 
-Grid::Grid() {}
+Grid::Grid() {
+	gridData.resize(rows, std::vector<std::optional<Cell>>(cols));
+	placeRandomCell();
+}
 
 void Grid::logGridState() {
 	for (int i = 0; i < rows; i++) {
@@ -85,6 +88,7 @@ void Grid::placeRandomCell() {
 	do {
 		randRow = rng.get_random_row_or_col();
 		randCol = rng.get_random_row_or_col();
+		// printf("Row: %i, Col: %i", randRow, randCol);
 	} while (checkForCellAt(randRow, randCol));
 
 	Cell cell = createCell(randRow, randCol);
@@ -92,7 +96,7 @@ void Grid::placeRandomCell() {
 }
 
 void Grid::deleteCellAt(int row, int col) {
-	rng.get_random_row_or_col();
+	gridData[row][col].reset();
 }
 
 void Grid::clearGrid() {

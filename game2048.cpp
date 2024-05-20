@@ -1,7 +1,7 @@
 #include "game2048.h"
 #include "grid.h"
 
-Game2048::Game2048() : screenWidth(settings.INITIAL_SCREEN_WIDTH), screenHeight(settings.INITIAL_SCREEN_HEIGHT) {}
+Game2048::Game2048() : screenWidth(settings.INITIAL_SCREEN_WIDTH), screenHeight(settings.INITIAL_SCREEN_HEIGHT), grid() {}
 
 void Game2048::initSFML() {
 	window.create(sf::VideoMode(screenWidth, screenHeight), "Window", sf::Style::Default);
@@ -23,12 +23,14 @@ void Game2048::mainLoop() {
 		handleEvents();
 		updateLogic();
 		renderGame();
+		// grid.logGridState();
 	}
 }
 
 void Game2048::victory() {}
 
-void Game2048::replay() {}
+void Game2048::replay() { // Partially functional for now
+}
 
 
 void Game2048::handleEvents() {
@@ -40,16 +42,22 @@ void Game2048::handleEvents() {
 			break;
 		case sf::Event::KeyPressed:
 			if (event.key.scancode == sf::Keyboard::Scan::W || event.key.scancode == sf::Keyboard::Scan::Up) {
-			
+				grid.moveAndMergeUp();
 			}
 			else if ((event.key.scancode == sf::Keyboard::Scan::A || event.key.scancode == sf::Keyboard::Scan::Left)) {
-			
+				grid.moveAndMergeLeft();
 			}
 			else if ((event.key.scancode == sf::Keyboard::Scan::S || event.key.scancode == sf::Keyboard::Scan::Down)) {
-
+				grid.moveAndMergeDown();
 			}
 			else if ((event.key.scancode == sf::Keyboard::Scan::D || event.key.scancode == sf::Keyboard::Scan::Right)) {
-
+				grid.moveAndMergeRight();
+			}
+			else if (event.key.scancode == sf::Keyboard::Scan::R) {
+				grid.clearGrid();
+			}
+			else if (event.key.scancode == sf::Keyboard::Scan::Q) {
+				window.close();
 			}
 			break;
 		case sf::Event::Resized:
@@ -71,6 +79,7 @@ void Game2048::renderGame() {
 	window.clear(); // Can (maybe?) avoid if we draw bg rectangle that covers window
 	renderBG();
 	renderGrid();
+	renderCell();
 
 	window.display();
 
@@ -102,6 +111,45 @@ sf::Color Game2048::getColorForNumber(int number) {
 		// Default color if number doesn't exist in map
 		exit(1);
 	}
+}
+
+void Game2048::renderCell() {
+	
+	int paddingWidth = (screenWidth / 2) - (settings.totalHeight / 2);
+	int paddingHeight = (screenHeight / 2) - (settings.totalHeight / 2);
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (grid.checkForCellAt(i, j)) {
+
+				Cell& cell = grid.getCellAt(i, j);
+
+				// Set color for cells
+				sf::Color cellColor = getColorForNumber((grid.getCellAt(i, j)).getNumber());
+
+				int topLeftX = cellSpacing * (j + 1) + cellSize * j;
+				int topLeftY = cellSpacing * (i + 1) + cellSize * i;
+
+				sf::RectangleShape cellRect;
+
+				cellRect.setPosition(topLeftX += paddingWidth, topLeftY += paddingHeight);
+				cellRect.setSize(sf::Vector2f(cellSize, cellSize));
+
+				cellRect.setFillColor(cellColor);
+				window.draw(cellRect);
+
+				
+
+				// Place text here
+				// renderNumber(cell.getNumber(), topLeftX + paddingWidth, topLeftY + paddingHeight);
+
+
+			}
+		}
+	}
+
+
+
 }
 
 void Game2048::renderGrid() {

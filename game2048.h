@@ -98,6 +98,7 @@ private:
 
 	sf::Color getColorForNumber(int number);
 	void renderGrid();
+	void renderCell();
 
 };
 
