@@ -6,6 +6,7 @@
 
 #include "Settings.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 #include "grid.h"
 
@@ -28,11 +29,11 @@ public:
 	void renderGame();
 
 
-	sf::Window* getWindowPointer();
+	sf::RenderWindow* getWindowPointer();
 
 
 private:
-	sf::Window window;
+	sf::RenderWindow window;
 	MySettings& settings = MySettings::getInstance();
 
 	int screenWidth;

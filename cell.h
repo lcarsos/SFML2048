@@ -49,6 +49,7 @@ private:
 
 	MySettings& settings = MySettings::getInstance();
 
+
 };
 
 #endif 
