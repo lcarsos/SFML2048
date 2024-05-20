@@ -221,4 +221,13 @@ void Game2048::renderGrid() {
 	}
 }
 
+void Game2048::renderScore(int num) {
 
+
+}
+
+
+void Game2048::renderScoreBox(int num) {
+
+
+}

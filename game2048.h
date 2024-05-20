@@ -104,6 +104,9 @@ private:
 	void renderGrid();
 	void renderCell();
 
+	void renderScoreBox();
+	void renderScore();
+
 };
 
 

@@ -28,6 +28,7 @@ struct MySettings {
 	static constexpr int gridCellSize = 192;
 	static constexpr int gridCellSpacing = 16;
 
+
 	// Calculate total width and height of the grid
 	static constexpr int totalWidth = gridCols * gridCellSize + (gridCols + 1) * gridCellSpacing;
 	static constexpr int totalHeight = gridRows * gridCellSize + (gridRows + 1) * gridCellSpacing;
@@ -35,6 +36,8 @@ struct MySettings {
 	static constexpr int windowMinWidth = totalWidth;
 	static constexpr int windowMinHeight = totalHeight;
 
+	static constexpr int scoreBoxWidth = totalWidth;
+	static constexpr int scoreBoxHeight = 100;
 
 	static constexpr int deltaTime = 0.001; // seconds (1ms)
 
