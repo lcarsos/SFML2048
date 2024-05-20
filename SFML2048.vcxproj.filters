@@ -51,4 +51,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="Montserrat-Bold.ttf" />
+    <Font Include="Montserrat-Regular.ttf" />
+  </ItemGroup>
 </Project>

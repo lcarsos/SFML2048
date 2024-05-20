@@ -49,6 +49,8 @@ private:
 
 	sf::RectangleShape bgRect;
 
+	sf::Font font;
+
 	struct colors2048 {
 		const sf::Color farBackColor = { 55, 55, 55, 255 };
 		const sf::Color backgroundColor = { 202, 190, 176, 255 };
@@ -97,6 +99,7 @@ private:
 
 
 	sf::Color getColorForNumber(int number);
+	void renderNumber();
 	void renderGrid();
 	void renderCell();
 

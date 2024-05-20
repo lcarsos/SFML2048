@@ -113,6 +113,11 @@ sf::Color Game2048::getColorForNumber(int number) {
 	}
 }
 
+void Game2048::renderNumber() {
+	
+}
+
+
 void Game2048::renderCell() {
 	
 	int paddingWidth = (screenWidth / 2) - (settings.totalHeight / 2);
@@ -147,8 +152,6 @@ void Game2048::renderCell() {
 			}
 		}
 	}
-
-
 
 }
 
