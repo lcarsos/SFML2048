@@ -18,6 +18,7 @@ public:
 
 
 	void initSFML();
+	void initFont();
 	void quit();
 
 	void splash();
@@ -77,7 +78,7 @@ private:
 
 	} colors2048;
 
-	std::map<int, sf::Color> colorMap = {
+	const std::map<int, sf::Color> colorMap = {
 	{2, colors2048.cell2Color},
 	{4, colors2048.cell4Color},
 	{8, colors2048.cell8Color},
@@ -98,8 +99,8 @@ private:
 	void renderBG();
 
 
-	sf::Color getColorForNumber(int number);
-	void renderNumber();
+	sf::Color getColorForNumber(int number) const;
+	void renderNumber(int num, int xPos, int yPos);
 	void renderGrid();
 	void renderCell();
 

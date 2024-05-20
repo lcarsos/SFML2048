@@ -8,6 +8,15 @@ void Game2048::initSFML() {
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
 
+	initFont();
+}
+
+void Game2048::initFont() {
+
+	if (!font.loadFromFile(".\\Montserrat-Regular.ttf")) {
+		std::cout << "FUck!";
+	}
+
 }
 
 void Game2048::quit() {
@@ -100,7 +109,7 @@ void Game2048::renderBG() {
 	window.draw(bgRect);
 }
 
-sf::Color Game2048::getColorForNumber(int number) {
+sf::Color Game2048::getColorForNumber(int number) const {
 	// Check if the number exists in the map
 	auto it = colorMap.find(number);
 	if (it != colorMap.end()) {
@@ -113,8 +122,23 @@ sf::Color Game2048::getColorForNumber(int number) {
 	}
 }
 
-void Game2048::renderNumber() {
-	
+void Game2048::renderNumber(int num, int xPos, int yPos) {
+	int fontSizeLarge = 100;
+
+	sf::Text text;
+	text.setFont(font);
+	text.setCharacterSize(fontSizeLarge);
+	text.setFillColor(colors2048.numberColor);
+	text.setString(std::to_string(num));
+
+	// Calculate the position for the text to be centered
+	sf::FloatRect textRect = text.getLocalBounds();
+	text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	text.setPosition(sf::Vector2f(xPos + settings.gridCellSize / 2, yPos + settings.gridCellSize / 2));
+
+
+
+	window.draw(text);
 }
 
 
@@ -146,7 +170,7 @@ void Game2048::renderCell() {
 				
 
 				// Place text here
-				// renderNumber(cell.getNumber(), topLeftX + paddingWidth, topLeftY + paddingHeight);
+				renderNumber(cell.getNumber(), topLeftX, topLeftY);
 
 
 			}

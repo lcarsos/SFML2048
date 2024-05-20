@@ -36,6 +36,8 @@ struct MySettings {
 	static constexpr int windowMinHeight = totalHeight;
 
 
+	static constexpr int deltaTime = 0.001; // seconds (1ms)
+
 
 
 private:
