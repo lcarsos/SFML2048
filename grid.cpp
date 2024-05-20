@@ -1,4 +1,5 @@
 #include "grid.h"
+#include "cell.h"
 
 Grid::Grid() {}
 

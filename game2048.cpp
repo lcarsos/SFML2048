@@ -91,4 +91,17 @@ void Game2048::renderBG() {
 	window.draw(bgRect);
 }
 
+sf::Color Game2048::getColorForNumber(int number) {
+	// Check if the number exists in the map
+	auto it = colorMap.find(number);
+	if (it != colorMap.end()) {
+		// Return the corresponding color
+		return it->second;
+	}
+	else {
+		// Default color if number doesn't exist in map
+		exit(1);
+	}
+}
+
 
