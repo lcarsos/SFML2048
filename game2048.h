@@ -5,6 +5,7 @@
 #define GAME2048_H
 
 #include "Settings.h"
+#include "color.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -29,7 +30,7 @@ public:
 	void renderGame();
 
 
-	sf::RenderWindow* getWindowPointer();
+	sf::RenderWindow& getWindow();
 
 
 private:
@@ -40,6 +41,12 @@ private:
 	int screenHeight;
 
 	Grid grid;
+
+	sf::RectangleShape bgRect;
+
+	void initBG();
+	void renderBG();
+
 
 };
 

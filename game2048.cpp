@@ -1,12 +1,13 @@
 #include "game2048.h"
 #include "grid.h"
 
-Game2048::Game2048() : screenWidth(settings.INITIAL_SCREEN_WIDTH), screenHeight(settings.INITIAL_SCREEN_HEIGHT){}
+Game2048::Game2048() : screenWidth(settings.INITIAL_SCREEN_WIDTH), screenHeight(settings.INITIAL_SCREEN_HEIGHT) {}
 
 void Game2048::initSFML() {
 	window.create(sf::VideoMode(screenWidth, screenHeight), "Window", sf::Style::Default);
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
+
 }
 
 void Game2048::quit() {
@@ -17,6 +18,7 @@ void Game2048::quit() {
 void Game2048::splash() {}
 
 void Game2048::mainLoop() {
+	initBG();
 	while (window.isOpen()) {
 		handleEvents();
 		updateLogic();
@@ -53,6 +55,7 @@ void Game2048::handleEvents() {
 		case sf::Event::Resized:
 			screenWidth = event.size.width;
 			screenHeight = event.size.height;
+			// bgRect.setSize(sf::Vector2f(screenWidth, screenHeight));
 			break;
 		default:
 			break;
@@ -64,12 +67,28 @@ void Game2048::handleEvents() {
 
 void Game2048::updateLogic() {}
 
-void Game2048::renderGame() {}
+void Game2048::renderGame() {
+	window.clear(); // Can (maybe?) avoid if we draw bg rectangle that covers window
+	renderBG();
 
 
-sf::RenderWindow* Game2048::getWindowPointer() {
-	return &window;
+	window.display();
+
 }
 
+
+sf::RenderWindow& Game2048::getWindow() {
+	return window;
+}
+
+void Game2048::initBG() {
+	bgRect.setSize(sf::Vector2f(screenWidth, screenHeight));
+	bgRect.setFillColor(Color::getSFMLColorVector(Color::EIGENGRAU));
+	bgRect.setPosition(0, 0);
+}
+
+void Game2048::renderBG() {
+	window.draw(bgRect);
+}
 
 

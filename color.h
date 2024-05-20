@@ -15,7 +15,7 @@
 // or using namespace Color; --> (risky) 
 // function(namedColor) 
 
-class Color {
+struct Color {
 public:
 
     enum NamedColor {
@@ -61,6 +61,24 @@ public:
         case PHSORNG: return { 255, 204, 0 };
         case MAGENTA: return { 255, 0, 255 };
         case DRKGRY: return { 55, 55, 55, };
+        case EIGENGRAU: return { 22, 22, 29, 255 };
+        case LANDLORDWHITE: return { 250, 249, 246, 255 };
+        case TRANSP: return { 0, 0, 0, 0 };
+        default:      throw std::invalid_argument("Invalid named color");
+        }
+    }
+
+    static sf::Color getSFMLColorVector(NamedColor namedColor) {
+        // { r, g, b, opacity }
+        switch (namedColor) {
+        case WHITE:   return { 255, 255, 255, 255 };
+        case BLACK:   return { 0, 0, 0, 255 };
+        case RED:     return { 255, 0, 0, 255 };
+        case GREEN:   return { 0, 255, 0, 255 };
+        case BLUE:    return { 0, 0, 255, 255 };
+        case PHSORNG: return { 255, 204, 0, 255 };
+        case MAGENTA: return { 255, 0, 255, 255 };
+        case DRKGRY: return { 55, 55, 55, 255 };
         case EIGENGRAU: return { 22, 22, 29, 255 };
         case LANDLORDWHITE: return { 250, 249, 246, 255 };
         case TRANSP: return { 0, 0, 0, 0 };

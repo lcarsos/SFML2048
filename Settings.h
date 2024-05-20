@@ -58,7 +58,28 @@ struct MySettings {
 		sf::Color numberColor = { 245,245,250,255 };
 
 		sf::Color scoreBGColor = {};
+
+
+		std::map<int, sf::Color> colorMap = {
+		{2, cell2Color},
+		{4, cell4Color},
+		{8, cell8Color},
+		{16, cell16Color},
+		{32, cell32Color},
+		{64, cell64Color},
+		{128, cell128Color},
+		{256, cell256Color},
+		{512, cell512Color},
+		{1024, cell1024Color},
+		{2048, cell2048Color},
+		{4096, cell4096Color},
+		{8192, cell8192Color},
+		// Add more mappings as needed for higher numbers...
+		};
+
 	};
+
+
 
 private:
 
