@@ -37,7 +37,7 @@ struct MySettings {
 	static constexpr int windowMinHeight = totalHeight;
 
 	static constexpr int scoreBoxWidth = totalWidth;
-	static constexpr int scoreBoxHeight = 100;
+	static constexpr int scoreBoxHeight = 145;
 
 	static constexpr int deltaTime = 0.001; // seconds (1ms)
 

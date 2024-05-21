@@ -46,6 +46,9 @@ private:
 	const int& rows = settings.gridRows;
 	const int& cols = settings.gridCols;
 
+	int paddingWidth = (screenWidth / 2) - (settings.totalHeight / 2);
+	int paddingHeight = (screenHeight / 2) - (settings.totalHeight / 2) + (settings.scoreBoxHeight / 2);
+
 	Grid grid;
 
 	sf::RectangleShape bgRect;
@@ -54,7 +57,7 @@ private:
 
 	struct colors2048 {
 		const sf::Color farBackColor = { 55, 55, 55, 255 };
-		const sf::Color backgroundColor = { 202, 190, 176, 255 };
+		const sf::Color backgroundColor = { 200, 188, 174, 255 };
 		const sf::Color gridColor = { 175, 161, 148, 255 };
 
 
@@ -74,7 +77,7 @@ private:
 
 		const sf::Color numberColor = { 244,244,249,255 };
 
-		const sf::Color scoreBGColor = {};
+		const sf::Color scoreBGColor = { 200, 188, 174, 255 };
 
 	} colors2048;
 
@@ -105,8 +108,6 @@ private:
 	void renderCell();
 
 	void renderScoreBox();
-	void renderScore();
-
 };
 
 

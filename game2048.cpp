@@ -88,6 +88,7 @@ void Game2048::renderGame() {
 	window.clear(); // Can (maybe?) avoid if we draw bg rectangle that covers window
 	renderBG();
 	renderGrid();
+	renderScoreBox();
 	renderCell();
 
 	window.display();
@@ -144,9 +145,6 @@ void Game2048::renderNumber(int num, int xPos, int yPos) {
 
 void Game2048::renderCell() {
 	
-	int paddingWidth = (screenWidth / 2) - (settings.totalHeight / 2);
-	int paddingHeight = (screenHeight / 2) - (settings.totalHeight / 2);
-
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			if (grid.checkForCellAt(i, j)) {
@@ -181,9 +179,6 @@ void Game2048::renderCell() {
 
 void Game2048::renderGrid() {
 	sf::Color gridColor = colors2048.gridColor;
-
-	int paddingWidth = (screenWidth / 2) - (settings.totalHeight / 2);
-	int paddingHeight = (screenHeight / 2) - (settings.totalHeight / 2);
 
 	// Render grid background
 	sf::RectangleShape gridBGRect;
@@ -221,13 +216,30 @@ void Game2048::renderGrid() {
 	}
 }
 
-void Game2048::renderScore(int num) {
+
+void Game2048::renderScoreBox() {
+
+	// Render Box
+	const int& width = settings.scoreBoxWidth - 2*cellSpacing;
+	const int& height = settings.scoreBoxHeight;
+
+	int topLeftX = paddingWidth + cellSpacing; // Can we make this a reference?
+	int topLeftY = paddingHeight - height;
+
+	sf::Vector2f topLeft(topLeftX, topLeftY);
+
+	sf::RectangleShape scoreBox;
+	scoreBox.setSize(sf::Vector2f(width, height));
+	scoreBox.setPosition(topLeftX, topLeftY);
+	scoreBox.setFillColor(colors2048.scoreBGColor);
+	scoreBox.setOutlineThickness(settings.gridCellSpacing);
+	scoreBox.setOutlineColor(colors2048.gridColor);
 
 
-}
+	// Draw box
+	window.draw(scoreBox);
 
-
-void Game2048::renderScoreBox(int num) {
-
+	// Render and draw Score
+	// renderScore();
 
 }

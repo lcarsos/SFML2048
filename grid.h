@@ -7,6 +7,7 @@
 #include <optional>
 
 #include "cell.h"
+#include "score.h"
 
 class Grid {
 public:
@@ -30,7 +31,7 @@ public:
 
 	std::vector<std::vector<std::optional<Cell>>>& getGridData();
 	Cell& getCellAt(int row, int col);
-	// Score& getScore();
+	int getScore();
 
 
 private:
@@ -40,7 +41,7 @@ private:
 	static constexpr int cellSize = 200;
 
 	std::vector<std::vector<std::optional<Cell>>> gridData;
-	// Score score;
+	Score score;
 
 	MySettings& settings = MySettings::getInstance();
 	RandomGenerator& rng = RandomGenerator::get_instance();

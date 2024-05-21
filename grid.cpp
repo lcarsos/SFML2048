@@ -1,5 +1,6 @@
 #include "grid.h"
 #include "cell.h"
+#include "score.h"
 
 Grid::Grid() {
 	gridData.resize(rows, std::vector<std::optional<Cell>>(cols));
@@ -259,6 +260,10 @@ Cell& Grid::getCellAt(int row, int col) {
 
 }
 
+int Grid::getScore() {
+	return score.getScore();
+}
+
 std::optional<Cell> Grid::getPotentialCellAt(int row, int col) {
 	return gridData[row][col];
 }
@@ -336,11 +341,11 @@ void Grid::mergeCells(Cell& targetCell, Cell& movingCell) {
 		// Merge the cells by updating the value of the first cell
 		targetCell.setNumber((movingCell.getNumber()) * 2);
 		// Update score
-		// score.updateScore(targetCell.getNumber());
+		score.updateScore(targetCell.getNumber());
 		// Delete the second cell
 		deleteCellAt(movingCell.getRow(), movingCell.getCol());
 		// Log score to console for now
-		// score.logScore();
+		score.logScore();
 		targetCell.cellHasMerged();
 		return;
 	}
