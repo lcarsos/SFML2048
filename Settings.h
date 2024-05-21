@@ -14,7 +14,7 @@ struct MySettings {
 		return instance; // Returns a static reference to the MySettings struct
 	}
 
-	static constexpr int TARGET_FPS = 180;
+	static constexpr int TARGET_FPS = 120;
 
 	static constexpr int INITIAL_SCREEN_WIDTH = 1920; // Initial screen width, can be overriden if necessary (second MySDL_Renderer constructor)
 	static constexpr int INITIAL_SCREEN_HEIGHT = 1080;

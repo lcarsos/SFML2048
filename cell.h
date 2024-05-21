@@ -11,8 +11,8 @@ public:
 	Cell(int row, int col);
 	Cell(int num, int row, int col);
 
-	// Default destructor
-	~Cell() = default;
+	// Destructor
+	~Cell();
 
 	// Copy constructor
 	Cell(const Cell& other);

@@ -8,6 +8,10 @@ Cell::Cell(int row, int col)
 Cell::Cell(int num, int row, int col)
     : number(num), row(row), col(col), justMerged(false), settings(MySettings::getInstance()) {}
 
+Cell::~Cell() {
+   // printf("Cell destroyed!");
+}
+
 // Copy constructor
 Cell::Cell(const Cell& other)
     : number(other.number), row(other.row), col(other.col), justMerged(other.justMerged), settings(MySettings::getInstance()) {}
