@@ -38,6 +38,8 @@ private:
 	sf::RenderWindow window;
 	MySettings& settings = MySettings::getInstance();
 
+	sf::View view = window.getDefaultView();
+
 	int screenWidth;
 	int screenHeight;
 
@@ -108,6 +110,8 @@ private:
 	void renderCell();
 
 	void renderScoreBox();
+
+	void enforceWindowSizeConstraints(const int& minSizeX, const int& minSizeY, const int& maxSizeX, const int& maxSizeY);
 };
 
 

@@ -70,11 +70,23 @@ void Game2048::handleEvents() {
 			}
 			break;
 		case sf::Event::Resized:
+			enforceWindowSizeConstraints(settings.windowMinWidth, settings.windowMinHeight, settings.windowMaxWidth, settings.windowMaxHeight);
+
 			screenWidth = event.size.width;
 			screenHeight = event.size.height;
-			// bgRect.setSize(sf::Vector2f(screenWidth, screenHeight));
+
+			//paddingWidth = (screenWidth / 2) - (settings.totalHeight / 2);
+			//paddingHeight = (screenHeight / 2) - (settings.totalHeight / 2) + (settings.scoreBoxHeight / 2);
+
+			//// Update the view to the new size, keeping aspect ratio
+			//sf::FloatRect visibleArea((settings.INITIAL_SCREEN_WIDTH - screenWidth) / 2, (settings.INITIAL_SCREEN_HEIGHT - screenHeight)/2, screenWidth, screenHeight);
+			//view = sf::View(visibleArea);
+			//window.setView(view);
+
+			
+
 			break;
-		default:
+		//default:
 			break;
 
 
@@ -235,11 +247,45 @@ void Game2048::renderScoreBox() {
 	scoreBox.setOutlineThickness(settings.gridCellSpacing);
 	scoreBox.setOutlineColor(colors2048.gridColor);
 
+	// Render Score
 
-	// Draw box
+	int fontSizeLarge = 90;
+
+	sf::Text text;
+	text.setFont(font);
+	text.setCharacterSize(fontSizeLarge);
+	text.setFillColor(colors2048.numberColor);
+	text.setString("Score: " + std::to_string(grid.getScore()));
+
+	// Calculate the position for the text to be centered
+	sf::FloatRect textRect = text.getLocalBounds();
+
+	// Calculate the center position for the score box
+	float boxCenterX = topLeftX + width / 2.0f;
+	float boxCenterY = topLeftY + height / 2.0f;
+
+	// Set the origin to the center of the text's bounding box
+	text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+
+	// Set the text position to the center of the score box
+	text.setPosition(boxCenterX, boxCenterY);
+
+
+	// Draw box and score
 	window.draw(scoreBox);
+	window.draw(text);
 
-	// Render and draw Score
-	// renderScore();
 
+
+}
+
+void Game2048::enforceWindowSizeConstraints(const int& minSizeX, const int& minSizeY, const int& maxSizeX, const int& maxSizeY) {
+	sf::Vector2u size = window.getSize();
+	if (size.x < minSizeX) size.x = minSizeX;
+	if (size.x > maxSizeX) size.x = maxSizeX;
+	if (size.y < minSizeY) size.y = minSizeY;
+	if (size.y > maxSizeY) size.y = maxSizeY;
+	if (size != window.getSize()) {
+		window.setSize(size);
+	}
 }

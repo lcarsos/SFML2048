@@ -12,7 +12,7 @@ public:
 
 	void updateScore(int num);
 
-	int getScore();
+	int& getScore();
 
 	void logScore();
 

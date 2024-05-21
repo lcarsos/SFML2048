@@ -7,9 +7,11 @@ Score::Score() : score(0) {}
 
 Score::Score(int num) : score(num) {}
 
-void Score::updateScore(int num) {}
+void Score::updateScore(int num) {
+	score += num;
+}
 
-int Score::getScore() {
+int& Score::getScore() {
 	return score;
 }
 

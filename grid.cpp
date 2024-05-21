@@ -261,6 +261,7 @@ Cell& Grid::getCellAt(int row, int col) {
 }
 
 int Grid::getScore() {
+	int& scr = score.getScore();
 	return score.getScore();
 }
 
