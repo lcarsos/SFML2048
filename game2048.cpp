@@ -27,6 +27,57 @@ void Game2048::quit() {
 void Game2048::splash() {
 	// Display "Another 2048 Clone!" on reg bg
 	// Switch to main loop after 3ish seconds
+
+	window.clear();
+
+	const std::string victoryMessage = "Another 2048 clone!\n";
+	const std::string playAgainMessage = "Malcolm LaRose 2024\n";
+
+	const std::string textToDisplay = victoryMessage + playAgainMessage;
+	const int fontSize = 66;
+
+	// Split the text into lines
+	std::vector<std::string> lines;
+	std::istringstream stream(textToDisplay);
+	std::string line;
+	while (std::getline(stream, line, '\n')) {
+		lines.push_back(line);
+	}
+
+	std::vector<sf::Text> texts;
+	for (const auto& l : lines) {
+		sf::Text text;
+		text.setFont(font);
+		text.setCharacterSize(fontSize);
+		text.setFillColor(colors2048.cell2048Color);
+		text.setString(l);
+		texts.push_back(text);
+	}
+
+	// Calculate the total height
+	float totalHeight = 0;
+	for (const auto& text : texts) {
+		totalHeight += text.getLocalBounds().height + fontSize * 0.2f; // Adjust the spacing as needed
+	}
+
+	// Position the text lines
+	sf::Vector2u windowSize = window.getSize();
+	float startY = (windowSize.y - totalHeight) / 2.0f;
+
+	for (size_t i = 0; i < texts.size(); ++i) {
+		auto& text = texts[i];
+		auto textWidth = text.getLocalBounds().width;
+		text.setPosition((windowSize.x - textWidth) / 2.0f, startY);
+		startY += text.getLocalBounds().height + fontSize * 0.2f; // Adjust the spacing as needed
+	}
+
+	renderBG();
+	for (const auto& text : texts) {
+		window.draw(text);
+	}
+	window.display();
+	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+
 }
 
 void Game2048::mainLoop() {
