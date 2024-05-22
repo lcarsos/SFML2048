@@ -23,6 +23,7 @@ public:
 
 	void deleteCellAt(int row, int col);
 	void clearGrid();
+	void placeWinningTile();
 
 	void moveAndMergeLeft();
 	void moveAndMergeRight();

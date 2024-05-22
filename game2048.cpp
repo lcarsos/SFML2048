@@ -194,8 +194,11 @@ void Game2048::handleEvents() {
 			else if ((event.key.scancode == sf::Keyboard::Scan::D || event.key.scancode == sf::Keyboard::Scan::Right)) {
 				grid.moveAndMergeRight();
 			}
-			else if (event.key.scancode == sf::Keyboard::Scan::R) {
+			else if (event.key.scancode == sf::Keyboard::Scan::R) { // DEBUG CONTROL
 				grid.clearGrid();
+			}
+			else if (event.key.scancode == sf::Keyboard::Scan::K) { // DEBUG CONTROL
+				grid.placeWinningTile();
 			}
 			else if (event.key.scancode == sf::Keyboard::Scan::Q) {
 				window.close();

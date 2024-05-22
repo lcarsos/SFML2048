@@ -110,6 +110,17 @@ void Grid::clearGrid() {
 	score.resetScore();
 }
 
+void Grid::placeWinningTile() {
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			deleteCellAt(i, j);
+		}
+	}
+	Cell cell(2048, 1, 1);
+	gridData[1][1].emplace(cell);
+	
+}
+
 void Grid::moveAndMergeLeft() {
 
 	std::vector<std::vector<std::optional<Cell>>> beforeGrid = getGridData();
