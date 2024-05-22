@@ -43,35 +43,60 @@ void Game2048::mainLoop() {
 
 void Game2048::victory() { // Rendering loop, will be stuck here until action is taken
 	window.clear();
-	
+
 	const std::string victoryMessage = "Congratulations, you won!\n";
 	const std::string playAgainMessage = "Would you like to play again?\n";
 	const std::string instructions = "y: play again \nn: quit \nc: continue playing";
 
-	const std::string& textToDisplay = victoryMessage + playAgainMessage + instructions;
+	const std::string textToDisplay = victoryMessage + playAgainMessage + instructions;
+	const int fontSize = 60;
 
-	const int fontSize = 180;
+	// Split the text into lines
+	std::vector<std::string> lines;
+	std::istringstream stream(textToDisplay);
+	std::string line;
+	while (std::getline(stream, line, '\n')) {
+		lines.push_back(line);
+	}
 
-	sf::Text displayText;
-	displayText.setFont(font);
-	displayText.setCharacterSize(fontSize);
-	displayText.setFillColor(colors2048.cell2048Color);
-	displayText.setString(textToDisplay);
+	std::vector<sf::Text> texts;
+	for (const auto& l : lines) {
+		sf::Text text;
+		text.setFont(font);
+		text.setCharacterSize(fontSize);
+		text.setFillColor(colors2048.cell2048Color);
+		text.setString(l);
+		texts.push_back(text);
+	}
 
-	auto center = displayText.getGlobalBounds().getSize() / 2.0f;
-	auto localBounds = center + displayText.getLocalBounds().getPosition();
+	// Calculate the total height
+	float totalHeight = 0;
+	for (const auto& text : texts) {
+		totalHeight += text.getLocalBounds().height + fontSize * 0.2f; // Adjust the spacing as needed
+	}
 
-	displayText.setOrigin(localBounds);
+	// Position the text lines
+	sf::Vector2u windowSize = window.getSize();
+	float startY = (windowSize.y - totalHeight) / 2.0f;
+
+	for (size_t i = 0; i < texts.size(); ++i) {
+		auto& text = texts[i];
+		auto textWidth = text.getLocalBounds().width;
+		text.setPosition((windowSize.x - textWidth) / 2.0f, startY);
+		startY += text.getLocalBounds().height + fontSize * 0.2f; // Adjust the spacing as needed
+	}
 
 	renderBG();
 
 	bool inputDetected = false;
 
 	while (!inputDetected) {
-		std::cout << "Stuck in victory loop" << std::endl;
+		// std::cout << "Stuck in victory loop" << std::endl;
 		window.clear(colors2048.farBackColor);
 		renderBG();
-		window.draw(displayText);
+		for (const auto& text : texts) {
+			window.draw(text);
+		}
 		// Detect input here
 
 		sf::Event event;
@@ -88,13 +113,19 @@ void Game2048::victory() { // Rendering loop, will be stuck here until action is
 				}
 				else if (event.key.scancode == sf::Keyboard::Scan::N) {
 					// Change message and leave
-					displayText.setString("Thanks for playing!");
-					center = displayText.getGlobalBounds().getSize() / 2.0f;
-					localBounds = center + displayText.getLocalBounds().getPosition();
-					displayText.setOrigin(localBounds);
+					// Change message and leave
+					sf::Text endText;
+					endText.setFont(font);
+					endText.setCharacterSize(fontSize);
+					endText.setFillColor(colors2048.cell2048Color);
+					endText.setString("Thanks for playing!");
+
+					auto endTextWidth = endText.getLocalBounds().width;
+					endText.setPosition((windowSize.x - endTextWidth) / 2.0f, windowSize.y / 2.0f - endText.getLocalBounds().height / 2.0f);
 
 					window.clear(colors2048.farBackColor);
-					window.draw(displayText);
+					window.draw(endText);
+					window.display();
 					std::this_thread::sleep_for(std::chrono::seconds(3));
 
 					window.close();
@@ -106,7 +137,7 @@ void Game2048::victory() { // Rendering loop, will be stuck here until action is
 					return;
 				}
 			}
-		
+			window.display();
 		
 		}
 
@@ -119,30 +150,61 @@ void Game2048::victory() { // Rendering loop, will be stuck here until action is
 }
 
 void Game2048::loss() {
+	window.clear();
 
 	const std::string victoryMessage = "You have been slain!\n";
 	const std::string playAgainMessage = "Would you like to play again?\n";
 	const std::string instructions = "y: play again \nn: quit";
 
-	const std::string& textToDisplay = victoryMessage + playAgainMessage + instructions;
+	const std::string textToDisplay = victoryMessage + playAgainMessage + instructions;
+	const int fontSize = 60;
 
-	const int fontSize = 180;
+	// Split the text into lines
+	std::vector<std::string> lines;
+	std::istringstream stream(textToDisplay);
+	std::string line;
+	while (std::getline(stream, line, '\n')) {
+		lines.push_back(line);
+	}
 
-	sf::Text displayText;
-	displayText.setFont(font);
-	displayText.setCharacterSize(fontSize);
-	displayText.setFillColor(colors2048.cell2048Color);
-	displayText.setString(textToDisplay);
+	std::vector<sf::Text> texts;
+	for (const auto& l : lines) {
+		sf::Text text;
+		text.setFont(font);
+		text.setCharacterSize(fontSize);
+		text.setFillColor(colors2048.cell2048Color);
+		text.setString(l);
+		texts.push_back(text);
+	}
 
-	auto center = displayText.getGlobalBounds().getSize() / 2.0f;
-	auto localBounds = center + displayText.getLocalBounds().getPosition();
+	// Calculate the total height
+	float totalHeight = 0;
+	for (const auto& text : texts) {
+		totalHeight += text.getLocalBounds().height + fontSize * 0.2f; // Adjust the spacing as needed
+	}
 
-	displayText.setOrigin(localBounds);
+	// Position the text lines
+	sf::Vector2u windowSize = window.getSize();
+	float startY = (windowSize.y - totalHeight) / 2.0f;
+
+	for (size_t i = 0; i < texts.size(); ++i) {
+		auto& text = texts[i];
+		auto textWidth = text.getLocalBounds().width;
+		text.setPosition((windowSize.x - textWidth) / 2.0f, startY);
+		startY += text.getLocalBounds().height + fontSize * 0.2f; // Adjust the spacing as needed
+	}
+
+	renderBG();
 
 	bool inputDetected = false;
 
 	while (!inputDetected) {
+		// std::cout << "Stuck in victory loop" << std::endl;
 		window.clear(colors2048.farBackColor);
+		renderBG();
+		for (const auto& text : texts) {
+			window.draw(text);
+		}
 		// Detect input here
 
 		sf::Event event;
@@ -155,29 +217,34 @@ void Game2048::loss() {
 				if (event.key.scancode == sf::Keyboard::Scan::Y) {
 					// Play again
 					grid.clearGrid();
-					inputDetected = true;
+					return;
 				}
 				else if (event.key.scancode == sf::Keyboard::Scan::N) {
 					// Change message and leave
-					displayText.setString("Thanks for playing!");
-					center = displayText.getGlobalBounds().getSize() / 2.0f;
-					localBounds = center + displayText.getLocalBounds().getPosition();
-					displayText.setOrigin(localBounds);
+					// Change message and leave
+					sf::Text endText;
+					endText.setFont(font);
+					endText.setCharacterSize(fontSize);
+					endText.setFillColor(colors2048.cell2048Color);
+					endText.setString("Thanks for playing!");
+
+					auto endTextWidth = endText.getLocalBounds().width;
+					endText.setPosition((windowSize.x - endTextWidth) / 2.0f, windowSize.y / 2.0f - endText.getLocalBounds().height / 2.0f);
 
 					window.clear(colors2048.farBackColor);
-					window.draw(displayText);
+					window.draw(endText);
+					window.display();
 					std::this_thread::sleep_for(std::chrono::seconds(3));
 
 					window.close();
 					return;
 				}
 			}
-
+			window.display();
 
 		}
 
 	}
-
 
 }
 
