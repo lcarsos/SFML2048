@@ -24,10 +24,15 @@ void Game2048::quit() {
 }
 
 
-void Game2048::splash() {}
+void Game2048::splash() {
+	// Display "Another 2048 Clone!" on reg bg
+	// Switch to main loop after 3ish seconds
+}
 
 void Game2048::mainLoop() {
 	initBG();
+	splash();
+
 	while (window.isOpen()) {
 		handleEvents();
 		updateLogic();
@@ -36,9 +41,28 @@ void Game2048::mainLoop() {
 	}
 }
 
-void Game2048::victory() {}
+void Game2048::victory() {
+	
+	// Display winning screen with victory message and score (and maybe movecount?)
+	// If playagain, call replay()
+	// If continue, go back to main loop
+	// If done, quit game
+
+}
 
 void Game2048::replay() { // Partially functional for now
+
+	// Reset score
+	// Reset grid
+	// Place random cell
+	// Go to start of main loop
+
+}
+
+void Game2048::loss() {
+
+
+
 }
 
 

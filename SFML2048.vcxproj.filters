@@ -55,4 +55,7 @@
     <Font Include="Montserrat-Bold.ttf" />
     <Font Include="Montserrat-Regular.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
 </Project>

@@ -51,6 +51,7 @@ private:
 	void moveCellTo(Cell& cell, int newRow, int newCol);
 	void resetCellMergeFlag();
 	void mergeCells(Cell& targetCell, Cell& movingCell);
+	bool checkForWin(int num);
 	int randomTwoOrFour();
 	Cell createCell(int row, int col);
 

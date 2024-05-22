@@ -25,6 +25,7 @@ public:
 	void mainLoop();
 	void victory();
 	void replay();
+	void loss();
 
 	void handleEvents();
 	void updateLogic();
