@@ -79,6 +79,8 @@ void Game2048::splash() {
 	}
 	window.display();
 	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+	sf::Event event;
+	while (window.pollEvent(event)) {/* Clear event queue?*/}
 
 }
 
@@ -143,13 +145,15 @@ void Game2048::victory() { // Rendering loop, will be stuck here until action is
 
 	bool inputDetected = false;
 
+	window.clear(colors2048.farBackColor);
+	renderBG();
+	for (const auto& text : texts) {
+		window.draw(text);
+	}
+
 	while (!inputDetected) {
 		// std::cout << "Stuck in victory loop" << std::endl;
-		window.clear(colors2048.farBackColor);
-		renderBG();
-		for (const auto& text : texts) {
-			window.draw(text);
-		}
+
 		// Detect input here
 
 		sf::Event event;
@@ -179,7 +183,7 @@ void Game2048::victory() { // Rendering loop, will be stuck here until action is
 					window.clear(colors2048.farBackColor);
 					window.draw(endText);
 					window.display();
-					std::this_thread::sleep_for(std::chrono::seconds(3));
+					std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
 					window.close();
 					return;
@@ -251,13 +255,14 @@ void Game2048::loss() {
 
 	bool inputDetected = false;
 
+	window.clear(colors2048.farBackColor);
+	renderBG();
+	for (const auto& text : texts) {
+		window.draw(text);
+	}
+
 	while (!inputDetected) {
 		// std::cout << "Stuck in victory loop" << std::endl;
-		window.clear(colors2048.farBackColor);
-		renderBG();
-		for (const auto& text : texts) {
-			window.draw(text);
-		}
 		// Detect input here
 
 		sf::Event event;
@@ -287,7 +292,7 @@ void Game2048::loss() {
 					window.clear(colors2048.farBackColor);
 					window.draw(endText);
 					window.display();
-					std::this_thread::sleep_for(std::chrono::seconds(3));
+					std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
 					window.close();
 					return;
