@@ -44,14 +44,16 @@ void Game2048::splash() {
 		lines.push_back(line);
 	}
 
+	int i = 0;
 	std::vector<sf::Text> texts;
 	for (const auto& l : lines) {
 		sf::Text text;
 		text.setFont(font);
-		text.setCharacterSize(fontSize);
+		text.setCharacterSize(fontSize - i*12);
 		text.setFillColor(colors2048.cell2048Color);
 		text.setString(l);
 		texts.push_back(text);
+		i++;
 	}
 
 	// Calculate the total height
