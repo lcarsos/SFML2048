@@ -103,6 +103,9 @@ private:
 	// Add more mappings as needed for higher numbers...
 	};
 
+
+	bool ignoreWin = false;
+
 	void initBG();
 	void renderBG();
 

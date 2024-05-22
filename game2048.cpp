@@ -42,6 +42,7 @@ void Game2048::mainLoop() {
 }
 
 void Game2048::victory() { // Rendering loop, will be stuck here until action is taken
+	window.clear();
 	
 	const std::string victoryMessage = "Congratulations, you won!\n";
 	const std::string playAgainMessage = "Would you like to play again?\n";
@@ -62,10 +63,15 @@ void Game2048::victory() { // Rendering loop, will be stuck here until action is
 
 	displayText.setOrigin(localBounds);
 
+	renderBG();
+
 	bool inputDetected = false;
 
 	while (!inputDetected) {
+		std::cout << "Stuck in victory loop" << std::endl;
 		window.clear(colors2048.farBackColor);
+		renderBG();
+		window.draw(displayText);
 		// Detect input here
 
 		sf::Event event;
@@ -78,6 +84,7 @@ void Game2048::victory() { // Rendering loop, will be stuck here until action is
 				if (event.key.scancode == sf::Keyboard::Scan::Y) {
 					// Play again
 					grid.clearGrid();
+					return;
 				}
 				else if (event.key.scancode == sf::Keyboard::Scan::N) {
 					// Change message and leave
@@ -95,6 +102,7 @@ void Game2048::victory() { // Rendering loop, will be stuck here until action is
 				}
 				else if (event.key.scancode == sf::Keyboard::Scan::C) {
 					// Play again
+					ignoreWin = true;
 					return;
 				}
 			}
@@ -230,10 +238,12 @@ void Game2048::handleEvents() {
 }
 
 void Game2048::updateLogic() {
-	if (grid.checkForWin()) {
+	if (grid.checkForWin() && !ignoreWin) {
+		std::cout << "V" << std::endl;
 		victory();
 	}
 	if (grid.isFull()) {
+		std::cout << "L" << std::endl;
 		loss();
 	}
 }
@@ -279,10 +289,22 @@ sf::Color Game2048::getColorForNumber(int number) const {
 
 void Game2048::renderNumber(int num, int xPos, int yPos) {
 	int fontSizeLarge = 100;
+	int fontSizeMed = 78;
+	int fontSizeSmall = 62;
 
 	sf::Text text;
 	text.setFont(font);
-	text.setCharacterSize(fontSizeLarge);
+
+	if (num >= 1024) {
+		text.setCharacterSize(fontSizeMed);
+	}
+	else if (num > 8192) {
+		text.setCharacterSize(fontSizeSmall);
+	}
+	else {
+		text.setCharacterSize(fontSizeLarge);
+	}
+
 	text.setFillColor(colors2048.numberColor);
 	text.setString(std::to_string(num));
 
