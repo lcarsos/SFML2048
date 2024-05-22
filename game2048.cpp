@@ -41,8 +41,68 @@ void Game2048::mainLoop() {
 	}
 }
 
-void Game2048::victory() {
+void Game2048::victory() { // Rendering loop, will be stuck here until action is taken
 	
+	const std::string victoryMessage = "Congratulations, you won!\n";
+	const std::string playAgainMessage = "Would you like to play again?\n";
+	const std::string instructions = "y: play again \nn: quit \nc: continue playing";
+
+	const std::string& textToDisplay = victoryMessage + playAgainMessage + instructions;
+
+	const int fontSize = 180;
+
+	sf::Text displayText;
+	displayText.setFont(font);
+	displayText.setCharacterSize(fontSize);
+	displayText.setFillColor(colors2048.cell2048Color);
+	displayText.setString(textToDisplay);
+
+	auto center = displayText.getGlobalBounds().getSize() / 2.0f;
+	auto localBounds = center + displayText.getLocalBounds().getPosition();
+
+	displayText.setOrigin(localBounds);
+
+	bool inputDetected = false;
+
+	while (!inputDetected) {
+		window.clear(colors2048.farBackColor);
+		// Detect input here
+
+		sf::Event event;
+		while (window.pollEvent(event)) {
+			switch (event.type) {
+			case sf::Event::Closed:
+				window.close();
+				break;
+			case sf::Event::KeyPressed:
+				if (event.key.scancode == sf::Keyboard::Scan::Y) {
+					// Play again
+					grid.clearGrid();
+				}
+				else if (event.key.scancode == sf::Keyboard::Scan::N) {
+					// Change message and leave
+					displayText.setString("Thanks for playing!");
+					center = displayText.getGlobalBounds().getSize() / 2.0f;
+					localBounds = center + displayText.getLocalBounds().getPosition();
+					displayText.setOrigin(localBounds);
+
+					window.clear(colors2048.farBackColor);
+					window.draw(displayText);
+					std::this_thread::sleep_for(std::chrono::seconds(3));
+
+					window.close();
+					return;
+				}
+				else if (event.key.scancode == sf::Keyboard::Scan::C) {
+					// Play again
+					return;
+				}
+			}
+		
+		
+		}
+
+	}
 	// Display winning screen with victory message and score (and maybe movecount?)
 	// If playagain, call replay()
 	// If continue, go back to main loop
@@ -50,17 +110,65 @@ void Game2048::victory() {
 
 }
 
-void Game2048::replay() { // Partially functional for now
-
-	// Reset score
-	// Reset grid
-	// Place random cell
-	// Go to start of main loop
-
-}
-
 void Game2048::loss() {
 
+	const std::string victoryMessage = "You have been slain!\n";
+	const std::string playAgainMessage = "Would you like to play again?\n";
+	const std::string instructions = "y: play again \nn: quit";
+
+	const std::string& textToDisplay = victoryMessage + playAgainMessage + instructions;
+
+	const int fontSize = 180;
+
+	sf::Text displayText;
+	displayText.setFont(font);
+	displayText.setCharacterSize(fontSize);
+	displayText.setFillColor(colors2048.cell2048Color);
+	displayText.setString(textToDisplay);
+
+	auto center = displayText.getGlobalBounds().getSize() / 2.0f;
+	auto localBounds = center + displayText.getLocalBounds().getPosition();
+
+	displayText.setOrigin(localBounds);
+
+	bool inputDetected = false;
+
+	while (!inputDetected) {
+		window.clear(colors2048.farBackColor);
+		// Detect input here
+
+		sf::Event event;
+		while (window.pollEvent(event)) {
+			switch (event.type) {
+			case sf::Event::Closed:
+				window.close();
+				break;
+			case sf::Event::KeyPressed:
+				if (event.key.scancode == sf::Keyboard::Scan::Y) {
+					// Play again
+					grid.clearGrid();
+					inputDetected = true;
+				}
+				else if (event.key.scancode == sf::Keyboard::Scan::N) {
+					// Change message and leave
+					displayText.setString("Thanks for playing!");
+					center = displayText.getGlobalBounds().getSize() / 2.0f;
+					localBounds = center + displayText.getLocalBounds().getPosition();
+					displayText.setOrigin(localBounds);
+
+					window.clear(colors2048.farBackColor);
+					window.draw(displayText);
+					std::this_thread::sleep_for(std::chrono::seconds(3));
+
+					window.close();
+					return;
+				}
+			}
+
+
+		}
+
+	}
 
 
 }
@@ -118,7 +226,14 @@ void Game2048::handleEvents() {
 	}
 }
 
-void Game2048::updateLogic() {}
+void Game2048::updateLogic() {
+	if (grid.checkForWin()) {
+		victory();
+	}
+	if (grid.isFull()) {
+		loss();
+	}
+}
 
 void Game2048::renderGame() {
 	window.clear(); // Can (maybe?) avoid if we draw bg rectangle that covers window

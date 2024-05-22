@@ -107,6 +107,7 @@ void Grid::clearGrid() {
 		}
 	}
 	placeRandomCell();
+	score.resetScore();
 }
 
 void Grid::moveAndMergeLeft() {
@@ -355,12 +356,20 @@ void Grid::mergeCells(Cell& targetCell, Cell& movingCell) {
 
 }
 
-bool Grid::checkForWin(int num) {
-	
-	if (num == 2048) {
-		// Go to victory replay screen
+bool Grid::checkForWin() {
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (checkForCellAt(i, j)) {
+				if (getCellAt(i, j).getNumber() == 2048) {
+					return true;
+				}
+			}
+		}
 	}
-	
+
+	return false;
+
 }
 
 int Grid::randomTwoOrFour() {

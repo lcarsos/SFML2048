@@ -6,8 +6,11 @@
 
 #include "Settings.h"
 #include "color.h"
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #include "grid.h"
 
@@ -24,7 +27,6 @@ public:
 	void splash();
 	void mainLoop();
 	void victory();
-	void replay();
 	void loss();
 
 	void handleEvents();
