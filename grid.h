@@ -30,7 +30,7 @@ public:
 	void moveAndMergeUp();
 	void moveAndMergeDown();
 
-	std::vector<std::vector<std::optional<Cell>>>& getGridData();
+	std::vector<std::vector<std::optional<Cell>>> getGridData();
 	Cell& getCellAt(int row, int col);
 	int getScore();
 	bool checkForWin();

@@ -260,7 +260,7 @@ void Grid::moveAndMergeDown() {
 
 }
 
-std::vector<std::vector<std::optional<Cell>>>& Grid::getGridData() {
+std::vector<std::vector<std::optional<Cell>>> Grid::getGridData() {
 
 	return gridData;
 

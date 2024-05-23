@@ -2,14 +2,14 @@
 
 #include "grid.h"
 
-typedef std::vector<std::vector<std::optional<Cell>>>& GridDataRef;
+typedef std::vector<std::vector<std::optional<Cell>>> GridData;
 
 int main() {
 
     Grid grid = Grid();
-    GridDataRef initial = grid.getGridData();
+    GridData initial = grid.getGridData();
     printf("%u\n", &initial);
-    GridDataRef before = grid.getGridData();
+    GridData before = grid.getGridData();
     printf("%u\n", &before);
     bool diff = grid.isSameGridState(initial, before);
     printf("diff is literally the same: %i\n", diff);
@@ -18,7 +18,7 @@ int main() {
     grid.moveAndMergeRight();
     grid.moveAndMergeDown();
     grid.moveAndMergeLeft();
-    GridDataRef after = grid.getGridData();
+    GridData after = grid.getGridData();
     printf("%u\n", &after);
     diff = grid.isSameGridState(before, after);
     printf("diff should actually be 0 now: %i\n", diff);
@@ -29,10 +29,10 @@ int main() {
     return 0;
 }
 // output:
-// 3429998288
-// 3429998288
+// 232038800
+// 232038832
 // diff is literally the same: 1
-// Score: 83429998288
-// diff should actually be 0 now: 1
+// Score: 8232038864
+// diff should actually be 0 now: 0
 // double check true: 1
 // double check false: 0
