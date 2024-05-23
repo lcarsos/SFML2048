@@ -3,10 +3,10 @@
 
 // Constructors
 Cell::Cell(int row, int col)
-    : number(2), row(row), col(col), justMerged(false), settings(MySettings::getInstance()) {}
+    : number(2), row(row), col(col), justMerged(false) {}
 
 Cell::Cell(int num, int row, int col)
-    : number(num), row(row), col(col), justMerged(false), settings(MySettings::getInstance()) {}
+    : number(num), row(row), col(col), justMerged(false) {}
 
 Cell::~Cell() {
    // printf("Cell destroyed!");
@@ -14,7 +14,7 @@ Cell::~Cell() {
 
 // Copy constructor
 Cell::Cell(const Cell& other)
-    : number(other.number), row(other.row), col(other.col), justMerged(other.justMerged), settings(MySettings::getInstance()) {}
+    : number(other.number), row(other.row), col(other.col), justMerged(other.justMerged) {}
 
 // Copy assignment operator
 Cell& Cell::operator=(const Cell& other) {
@@ -29,7 +29,7 @@ Cell& Cell::operator=(const Cell& other) {
 
 // Move constructor
 Cell::Cell(Cell&& other) noexcept
-    : number(std::move(other.number)), row(std::move(other.row)), col(std::move(other.col)), justMerged(std::move(other.justMerged)), settings(MySettings::getInstance()) {}
+    : number(std::move(other.number)), row(std::move(other.row)), col(std::move(other.col)), justMerged(std::move(other.justMerged)) {}
 
 // Move assignment operator
 Cell& Cell::operator=(Cell&& other) noexcept {

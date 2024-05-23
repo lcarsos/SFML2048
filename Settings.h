@@ -5,8 +5,6 @@
 
 #include <random> // For rng
 
-#include <SFML/Graphics.hpp> // For colors
-
 struct MySettings {
 
 	static MySettings& getInstance() {

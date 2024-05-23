@@ -47,7 +47,6 @@ private:
 
 	bool justMerged;
 
-	MySettings& settings = MySettings::getInstance();
 
 
 };

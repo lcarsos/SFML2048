@@ -1,7 +1,6 @@
 #include "score.h"
 
 #include <stdio.h>
-#include <windows.h>
 
 Score::Score() : score(0) {}
 
@@ -16,11 +15,9 @@ int& Score::getScore() {
 }
 
 void Score::logScore() {
-	system("cls");
 	printf("\rScore: %i", score);
 }
 
 void Score::resetScore() {
-	system("cls");
 	score = 0;
 }
